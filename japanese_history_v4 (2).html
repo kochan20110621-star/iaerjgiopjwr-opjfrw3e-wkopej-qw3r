@@ -1,0 +1,100 @@
+!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>バレーボール重要語句確認テスト</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body { background-color: #f3f4f6; font-family: 'sans-serif'; }
+        .input-box { border-bottom: 2px solid #3b82f6; width: 100px; text-align: center; font-weight: bold; color: #1e40af; }
+        .correct { color: #059669; font-weight: bold; }
+        .wrong { color: #dc2626; text-decoration: line-through; }
+    </style>
+</head>
+<body class="p-4 md:p-8">
+    <div class="max-w-2xl mx-auto bg-white p-6 rounded-xl shadow-lg">
+        <h1 class="text-2xl font-bold text-center text-blue-700 mb-6">🏐 バレーボール定期テスト対策</h1>
+        
+        <div id="quiz-container">
+            <!-- ルールセクション -->
+            <h2 class="text-lg font-bold border-l-4 border-blue-500 pl-2 mb-4">【バレーボールのルール】</h2>
+            <div class="space-y-4 mb-8 leading-loose">
+                <p>1. バレーボールの試合は、6人制のほかに（ <input type="text" id="q1" class="input-box"> ）制がある。</p>
+                <p>2. 6人制の試合の1セットは（ <input type="text" id="q2" class="input-box"> ）点である。</p>
+                <p>3. 6人制の試合では、24対24のときは（ <input type="text" id="q3" class="input-box"> ）点リードするまで試合は続行される。</p>
+                <p>4. ラリーに勝ったとき得点が入るのは、（ <input type="text" id="q4" class="input-box"> ）のほうである。</p>
+                <p>5. 6人制の試合で2名まで登録できる守備専門の選手を（ <input type="text" id="q5" class="input-box"> ）と呼ぶ。</p>
+                <p>6. 6人制の試合でローテーションを行うのは（ <input type="text" id="q6" class="input-box"> ）権を得たときである。</p>
+                <p>7. 9人制の試合では、サービスを失敗したとき2本目を打つことが（ <input type="text" id="q7" class="input-box" placeholder="できる/できない"> ）。</p>
+                <p>8. ボールがからだの一部で静止する反則を（ <input type="text" id="q8" class="input-box"> ）という。</p>
+                <p>9. 同一選手が2回続けてボールに触れることを（ <input type="text" id="q9" class="input-box"> ）と呼ぶ。</p>
+                <p>10. 相手コートのボールに触れることを（ <input type="text" id="q10" class="input-box"> ）という。</p>
+            </div>
+
+            <!-- 技術セクション -->
+            <h2 class="text-lg font-bold border-l-4 border-green-500 pl-2 mb-4">【バレーボールの技術】</h2>
+            <div class="space-y-4 mb-8 leading-loose">
+                <p>11. 背を向け、後方へ押し上げるトスを（ <input type="text" id="q11" class="input-box"> ）という。</p>
+                <p>12. からだを向け、全身で押し上げるトスを（ <input type="text" id="q12" class="input-box"> ）という。</p>
+                <p>13. 正対し、振り子運動の要領で打つサービスを（ <input type="text" id="q13" class="input-box"> ）という。</p>
+                <p>14. 肩を直角に向け、体重をかけて押し出すサービスを（ <input type="text" id="q14" class="input-box"> ）という。</p>
+                <p>15. 相手コートに強いボールを打ちこむ技術を（ <input type="text" id="q15" class="input-box"> ）という。</p>
+                <p>16. スパイクを打つときは、手首の（ <input type="text" id="q16" class="input-box"> ）をきかせる。</p>
+                <p>17. スパイクとみせかけて、相手のいないところへボールを落とす技術を（ <input type="text" id="q17" class="input-box"> ）という。</p>
+            </div>
+
+            <button onclick="checkAnswers()" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 rounded-lg transition">答え合わせをする</button>
+            
+            <div id="result" class="mt-6 p-4 rounded-lg hidden text-center">
+                <p id="score-text" class="text-xl font-bold"></p>
+                <p id="message" class="mt-2"></p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const answers = {
+            q1: "9人", q2: "25", q3: "2", q4: "ラリーに勝った",
+            q5: "リベロ", q6: "サービス", q7: "できる", q8: "キャッチボール",
+            q9: "ドリブル", q10: "オーバーネット", q11: "バックトス", q12: "フロントトス",
+            q13: "アンダーハンドサービス", q14: "サイドハンドサービス", q15: "スパイク",
+            q16: "スナップ", q17: "フェイント"
+        };
+
+        function checkAnswers() {
+            let score = 0;
+            const total = Object.keys(answers).length;
+
+            for (let id in answers) {
+                const input = document.getElementById(id);
+                const val = input.value.trim();
+                if (val === answers[id]) {
+                    score++;
+                    input.classList.add("correct");
+                    input.classList.remove("wrong");
+                } else {
+                    input.classList.add("wrong");
+                    input.classList.remove("correct");
+                    input.value += ` (正解: ${answers[id]})`;
+                }
+                input.disabled = true;
+            }
+
+            const resultDiv = document.getElementById("result");
+            resultDiv.classList.remove("hidden");
+            const scoreText = document.getElementById("score-text");
+            scoreText.innerText = `得点: ${score} / ${total}`;
+            
+            const message = document.getElementById("message");
+            if (score === total) {
+                resultDiv.classList.add("bg-green-100", "text-green-800");
+                message.innerText = "完璧です！学年1位の走り出しはバッチリです！";
+            } else {
+                resultDiv.classList.add("bg-yellow-100", "text-yellow-800");
+                message.innerText = "間違えたところは「ミス・ログ」に書き出し、1秒で答えられるようにしましょう！";
+            }
+        }
+    </script>
+</body>
+</html>
